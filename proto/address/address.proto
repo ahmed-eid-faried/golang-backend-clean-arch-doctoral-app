@@ -1,0 +1,193 @@
+syntax = "proto3";
+
+package address;
+
+option go_package = "main/proto";
+// protoc --go_out=. --go-grpc_out=. proto/address/address.proto
+// protoc --go_out=proto/gen/go/address --go-grpc_out=proto/gen/go/address proto/address/address.proto
+// protoc --go_out=(path for output pb.go) --go-grpc_out=(path for output grpc_pb.go) (path for input file address.proto)
+
+
+//=============================================================================//
+// AddressService defines the gRPC service for addresses
+service AddressService {
+    rpc GetAddressByID(GetAddressByIDRequest) returns (AddressResponse);
+    rpc ListAddresses(ListAddressesRequest) returns (ListAddressesResponse);
+    rpc CreateAddress(CreateAddressRequest) returns (AddressResponse);
+    rpc UpdateAddress(UpdateAddressRequest) returns (AddressResponse);
+    rpc DeleteAddress(DeleteAddressRequest) returns (AddressResponse);
+}
+
+//=============================================================================//
+// Address message
+message Address {
+    // ID of the address
+    // example: "12345"
+    string id_address = 1;
+    // User ID associated with the address
+    // example: "67890"
+    string id_user = 2;
+    // Name of the address
+    // example: "Home"
+    string name = 3;
+    // City of the address
+    // example: "San Francisco"
+    string city = 4;
+    // Street of the address
+    // example: "Market Street"
+    string street = 5;
+    // Latitude of the address
+    // example: "37.7749"
+    string lat = 6;
+    // Longitude of the address
+    // example: "-122.4194"
+    string long = 7;
+    // Created at timestamp
+    string created_at = 8;
+    // Updated at timestamp
+    string updated_at = 9;
+}
+
+// AddressResponse message
+message AddressResponse {
+    Address address = 1;
+}
+//=============================================================================//
+//=============================================================================//
+// GetAddressByIDRequest message
+message GetAddressByIDRequest {
+    // ID of the address
+    // example: "12345"
+    string id = 1;
+}
+//=============================================================================//
+//=============================================================================//
+// ListAddressReq message
+message ListAddressReq {
+    // Name of the address
+    // example: "Home"
+    string name = 1;
+    // User ID associated with the address
+    // example: "67890"
+    string id_user = 2;
+    // Page number for pagination
+    // example: 1
+    int64 page = 3;
+    // Limit number of items per page
+    // example: 10
+    int64 limit = 4;
+}
+
+// Pagination message
+message Pagination {
+    // Total number of items
+    // example: 100
+    int64 total = 1;
+    // Current page number
+    // example: 1
+    int64 page = 2;
+    // Number of items per page
+    // example: 10
+    int64 limit = 3;
+}
+// ListAddressesRequest message
+message ListAddressesRequest {
+    ListAddressReq request = 1;
+}
+
+// ListAddressesResponse message
+message ListAddressesResponse {
+    repeated Address addresses = 1;
+    Pagination pagination = 2;
+}
+
+// ListAddressRes message
+message ListAddressRes {
+    // List of addresses
+    // example: [{"id_address":"12345","id_user":"67890","name":"Home","city":"San Francisco","street":"Market Street","lat":"37.7749","long":"-122.4194"}]
+    repeated Address addresses = 1;
+    // Pagination info
+    Pagination pagination = 2;
+}
+
+//=============================================================================//
+//=============================================================================//
+// CreateAddressReq message
+message CreateAddressReq {
+    // User ID associated with the address
+    // example: "67890"
+    string id_user = 1;
+    // Name of the address
+    // example: "Home"
+    string name = 2;
+    // City of the address
+    // example: "San Francisco"
+    string city = 3;
+    // Street of the address
+    // example: "Market Street"
+    string street = 4;
+    // Latitude of the address
+    // example: "37.7749"
+    string lat = 5;
+    // Longitude of the address
+    // example: "-122.4194"
+    string long = 6;
+}
+// CreateAddressRequest message
+message CreateAddressRequest {
+    CreateAddressReq request = 1;
+}
+//=============================================================================//
+//=============================================================================//
+// UpdateAddressReq message
+message UpdateAddressReq {
+    // ID of the address
+    // example: "12345"
+    string id = 1;
+    // User ID associated with the address
+    // example: "67890"
+    string id_user = 2;
+    // Name of the address
+    // example: "Home"
+    string name = 3;
+    // City of the address
+    // example: "San Francisco"
+    string city = 4;
+    // Street of the address
+    // example: "Market Street"
+    string street = 5;
+    // Latitude of the address
+    // example: "37.7749"
+    string lat = 6;
+    // Longitude of the address
+    // example: "-122.4194"
+    string long = 7;
+}
+// UpdateAddressRequest message
+message UpdateAddressRequest {
+    string id = 1;
+    UpdateAddressReq request = 2;
+}
+
+
+//=============================================================================//
+//=============================================================================//
+
+// DeleteAddressReq message
+message DeleteAddressReq {
+    // ID of the address
+    // example: "12345"
+    string id = 1;
+    // User ID associated with the address
+    // example: "67890"
+    string id_user = 2;
+}
+
+// DeleteAddressRequest message
+message DeleteAddressRequest {
+    string id = 1;
+    DeleteAddressReq request = 2;
+}
+
+//=============================================================================//
+//=============================================================================//

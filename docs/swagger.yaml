@@ -1,0 +1,902 @@
+basePath: /api/v1
+definitions:
+  dto.Address:
+    properties:
+      city:
+        description: |-
+          City of the address
+          example: "San Francisco"
+        type: string
+      id_address:
+        description: |-
+          ID of the address
+          example: "12345"
+        type: string
+      id_user:
+        description: |-
+          User ID associated with the address
+          example: "67890"
+        type: string
+      lat:
+        description: |-
+          Latitude of the address
+          example: "37.7749"
+        type: string
+      long:
+        description: |-
+          Longitude of the address
+          example: "-122.4194"
+        type: string
+      name:
+        description: |-
+          Name of the address
+          example: "Home"
+        type: string
+      street:
+        description: |-
+          Street of the address
+          example: "Market Street"
+        type: string
+    type: object
+  dto.CreateAddressReq:
+    properties:
+      city:
+        description: |-
+          City of the address
+          example: "San Francisco"
+        type: string
+      id_user:
+        description: |-
+          User ID associated with the address
+          example: "67890"
+        type: string
+      lat:
+        description: |-
+          Latitude of the address
+          example: "37.7749"
+        type: string
+      long:
+        description: |-
+          Longitude of the address
+          example: "-122.4194"
+        type: string
+      name:
+        description: |-
+          Name of the address
+          example: "Home"
+        type: string
+      street:
+        description: |-
+          Street of the address
+          example: "Market Street"
+        type: string
+    type: object
+  dto.DeleteAddressReq:
+    properties:
+      id:
+        description: |-
+          ID of the address
+          example: "12345"
+        type: string
+      id_user:
+        description: |-
+          User ID associated with the address
+          example: "67890"
+        type: string
+    type: object
+  dto.DeleteUserReq:
+    properties:
+      id:
+        description: |-
+          ID of the address
+          example: "12345"
+        type: string
+    type: object
+  dto.KLoginReq:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    required:
+    - email
+    - password
+    type: object
+  dto.KRegisterReq:
+    properties:
+      email:
+        type: string
+      name:
+        type: string
+      password:
+        type: string
+      phone_number:
+        type: string
+    required:
+    - email
+    - password
+    type: object
+  dto.KUpdateUserReq:
+    properties:
+      email:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      new_password:
+        type: string
+      password:
+        type: string
+      phone_number:
+        type: string
+    required:
+    - email
+    - new_password
+    - password
+    type: object
+  dto.KUser:
+    properties:
+      approve_email:
+        type: boolean
+      approve_phone_number:
+        type: boolean
+      created_at:
+        type: string
+      deleted_at:
+        type: string
+      email:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      password:
+        type: string
+      phone_number:
+        type: string
+      role:
+        $ref: '#/definitions/model.UserRole'
+      updated_at:
+        type: string
+      verify_code_email:
+        type: integer
+      verify_code_phone_number:
+        type: integer
+    type: object
+  dto.ListAddressRes:
+    properties:
+      addresses:
+        description: |-
+          List of addresses
+          example: [{"id_address":"12345","id_user":"67890","name":"Home","city":"San Francisco","street":"Market Street","lat":"37.7749","long":"-122.4194"}]
+        items:
+          $ref: '#/definitions/dto.Address'
+        type: array
+      pagination:
+        allOf:
+        - $ref: '#/definitions/paging.Pagination'
+        description: Pagination info
+    type: object
+  dto.ListUsersRes:
+    properties:
+      Users:
+        description: |-
+          List of Users
+          example: [{"id_Users":"12345","id_user":"67890","name":"Home","city":"San Francisco","street":"Market Street","lat":"37.7749","long":"-122.4194"}]
+        items:
+          $ref: '#/definitions/dto.KUser'
+        type: array
+      pagination:
+        allOf:
+        - $ref: '#/definitions/paging.Pagination'
+        description: Pagination info
+    type: object
+  dto.LoginReq:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+      role:
+        $ref: '#/definitions/model.UserRole'
+    required:
+    - email
+    - password
+    type: object
+  dto.LoginRes:
+    properties:
+      access_token:
+        type: string
+      refresh_token:
+        type: string
+      user:
+        $ref: '#/definitions/dto.User'
+    type: object
+  dto.RefreshTokenReq:
+    properties:
+      refresh_token:
+        type: string
+    required:
+    - refresh_token
+    type: object
+  dto.RefreshTokenRes:
+    properties:
+      access_token:
+        type: string
+    type: object
+  dto.RegisterReq:
+    properties:
+      email:
+        type: string
+      name:
+        type: string
+      password:
+        type: string
+      phone_number:
+        type: string
+      role:
+        $ref: '#/definitions/model.UserRole'
+    required:
+    - email
+    - password
+    type: object
+  dto.RegisterRes:
+    properties:
+      user:
+        $ref: '#/definitions/dto.User'
+    type: object
+  dto.ResendVerifyEmailRequest:
+    properties:
+      email:
+        type: string
+    type: object
+  dto.ResendVerifyPhoneNumberRequest:
+    properties:
+      phone_number:
+        type: string
+    type: object
+  dto.UpdateAddressReq:
+    properties:
+      city:
+        description: |-
+          City of the address
+          example: "San Francisco"
+        type: string
+      id:
+        description: |-
+          ID of the address
+          example: "12345"
+        type: string
+      id_user:
+        description: |-
+          User ID associated with the address
+          example: "67890"
+        type: string
+      lat:
+        description: |-
+          Latitude of the address
+          example: "37.7749"
+        type: string
+      long:
+        description: |-
+          Longitude of the address
+          example: "-122.4194"
+        type: string
+      name:
+        description: |-
+          Name of the address
+          example: "Home"
+        type: string
+      street:
+        description: |-
+          Street of the address
+          example: "Market Street"
+        type: string
+    type: object
+  dto.UpdateUserReq:
+    properties:
+      email:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      new_password:
+        type: string
+      password:
+        type: string
+      phone_number:
+        type: string
+      role:
+        $ref: '#/definitions/model.UserRole'
+    required:
+    - email
+    - new_password
+    - password
+    type: object
+  dto.UpdateUserRes:
+    properties:
+      message:
+        type: string
+    type: object
+  dto.User:
+    properties:
+      created_at:
+        type: string
+      email:
+        type: string
+      id:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  dto.VerifyEmailRequest:
+    properties:
+      email:
+        type: string
+      verify_code_email:
+        type: string
+    type: object
+  dto.VerifyPhoneNumberRequest:
+    properties:
+      phone_number:
+        type: string
+      verify_code_phone_number:
+        type: string
+    type: object
+  dto.VerifyResponse:
+    properties:
+      message:
+        type: string
+    type: object
+  model.UserRole:
+    enum:
+    - admin
+    - doctor
+    - client
+    type: string
+    x-enum-comments:
+      UserRoleAdmin: Administrator role
+      UserRoleClient: Client role
+      UserRoleDoctor: Doctor role
+    x-enum-varnames:
+    - UserRoleAdmin
+    - UserRoleDoctor
+    - UserRoleClient
+  paging.Pagination:
+    properties:
+      current_page:
+        type: integer
+      limit:
+        type: integer
+      skip:
+        type: integer
+      total:
+        type: integer
+      total_page:
+        type: integer
+    type: object
+host: localhost:8888
+info:
+  contact:
+    email: quangdangfit@gmail.com
+    name: Quang Dang
+  description: API for user management
+  license:
+    name: MIT
+    url: https://github.com/MartinHeinz/go-project-blueprint/blob/master/LICENSE
+  termsOfService: http://swagger.io/terms/
+  title: User API
+  version: "1.0"
+paths:
+  /address:
+    get:
+      parameters:
+      - description: id_user
+        in: header
+        name: id_user
+        required: true
+        type: string
+      - description: name
+        in: path
+        name: name
+        required: true
+        type: string
+      - description: page
+        in: path
+        name: page
+        required: true
+        type: string
+      - description: limit
+        in: path
+        name: limit
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.ListAddressRes'
+      summary: Get list Address
+      tags:
+      - Address
+    post:
+      parameters:
+      - description: Body
+        in: body
+        name: _
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CreateAddressReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.Address'
+      security:
+      - ApiKeyAuth: []
+      summary: create Address
+      tags:
+      - Address
+  /address/{id}:
+    delete:
+      parameters:
+      - description: Body
+        in: body
+        name: _
+        required: true
+        schema:
+          $ref: '#/definitions/dto.DeleteAddressReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.Address'
+      security:
+      - ApiKeyAuth: []
+      summary: Delete Address
+      tags:
+      - Address
+    get:
+      parameters:
+      - description: Address ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.Address'
+      summary: Get Address by id
+      tags:
+      - Address
+    put:
+      parameters:
+      - description: Body
+        in: body
+        name: _
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UpdateAddressReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.Address'
+      security:
+      - ApiKeyAuth: []
+      summary: Update Address
+      tags:
+      - Address
+  /auth-admin/{id}:
+    delete:
+      parameters:
+      - description: Body
+        in: body
+        name: _
+        required: true
+        schema:
+          $ref: '#/definitions/dto.DeleteUserReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.User'
+      security:
+      - ApiKeyAuth: []
+      summary: Delete User
+      tags:
+      - users-admin
+  /auth-admin/create:
+    post:
+      parameters:
+      - description: Body
+        in: body
+        name: _
+        required: true
+        schema:
+          $ref: '#/definitions/dto.RegisterReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.RegisterRes'
+      security:
+      - ApiKeyAuth: []
+      summary: Create new user
+      tags:
+      - users-admin
+  /auth-admin/login:
+    post:
+      parameters:
+      - description: Body
+        in: body
+        name: _
+        required: true
+        schema:
+          $ref: '#/definitions/dto.LoginReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.LoginRes'
+      summary: LoginAdmin
+      tags:
+      - users-admin
+  /auth-admin/update:
+    put:
+      parameters:
+      - description: Body
+        in: body
+        name: _
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UpdateUserReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.UpdateUserRes'
+      security:
+      - ApiKeyAuth: []
+      summary: Update user
+      tags:
+      - users-admin
+  /auth-admin/users:
+    get:
+      parameters:
+      - description: id_user
+        in: header
+        name: id_user
+        required: true
+        type: string
+      - description: name
+        in: path
+        name: name
+        required: true
+        type: string
+      - description: page
+        in: path
+        name: page
+        required: true
+        type: string
+      - description: limit
+        in: path
+        name: limit
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.ListUsersRes'
+      security:
+      - ApiKeyAuth: []
+      summary: Get list Users
+      tags:
+      - users-admin
+  /auth-doctor/login:
+    post:
+      parameters:
+      - description: Body
+        in: body
+        name: _
+        required: true
+        schema:
+          $ref: '#/definitions/dto.KLoginReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.LoginRes'
+      summary: Login
+      tags:
+      - users-doctor
+  /auth-doctor/register:
+    post:
+      parameters:
+      - description: Body
+        in: body
+        name: _
+        required: true
+        schema:
+          $ref: '#/definitions/dto.KRegisterReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.RegisterRes'
+      summary: Register new user
+      tags:
+      - users-doctor
+  /auth-doctor/update-user:
+    put:
+      parameters:
+      - description: Body
+        in: body
+        name: _
+        required: true
+        schema:
+          $ref: '#/definitions/dto.KUpdateUserReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.UpdateUserRes'
+      security:
+      - ApiKeyAuth: []
+      summary: changes the password
+      tags:
+      - users-doctor
+  /auth-patient/login:
+    post:
+      parameters:
+      - description: Body
+        in: body
+        name: _
+        required: true
+        schema:
+          $ref: '#/definitions/dto.KLoginReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.LoginRes'
+      summary: Login
+      tags:
+      - users-patient
+  /auth-patient/register:
+    post:
+      parameters:
+      - description: Body
+        in: body
+        name: _
+        required: true
+        schema:
+          $ref: '#/definitions/dto.KRegisterReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.RegisterRes'
+      summary: Register new user
+      tags:
+      - users-patient
+  /auth-patient/update-user:
+    put:
+      parameters:
+      - description: Body
+        in: body
+        name: _
+        required: true
+        schema:
+          $ref: '#/definitions/dto.KUpdateUserReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.UpdateUserRes'
+      security:
+      - ApiKeyAuth: []
+      summary: changes the password
+      tags:
+      - users-patient
+  /auth/facebook/callback:
+    get:
+      parameters:
+      - description: Authorization Code from Facebook
+        in: query
+        name: code
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.LoginRes'
+      summary: Handles Facebook OAuth2 callback
+      tags:
+      - users
+  /auth/google/callback:
+    get:
+      consumes:
+      - application/json
+      description: Logs user in with Google OAuth2
+      parameters:
+      - description: Authorization code received from Google
+        in: query
+        name: code
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.LoginRes'
+      summary: Login with Google
+      tags:
+      - users
+  /auth/me:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.User'
+      security:
+      - ApiKeyAuth: []
+      summary: get my profile
+      tags:
+      - users
+  /auth/refresh-token:
+    get:
+      parameters:
+      - description: Body
+        in: body
+        name: _
+        required: true
+        schema:
+          $ref: '#/definitions/dto.RefreshTokenReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.RefreshTokenRes'
+      security:
+      - ApiKeyAuth: []
+      summary: get my profile
+      tags:
+      - users
+  /auth/resend-verfiy-code-email:
+    put:
+      parameters:
+      - description: Body
+        in: body
+        name: _
+        required: true
+        schema:
+          $ref: '#/definitions/dto.ResendVerifyEmailRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.VerifyResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Verfiy Code for Email
+      tags:
+      - users
+  /auth/resend-verfiy-code-phone-number:
+    put:
+      parameters:
+      - description: Body
+        in: body
+        name: _
+        required: true
+        schema:
+          $ref: '#/definitions/dto.ResendVerifyPhoneNumberRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.VerifyResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Verfiy Code for PhoneNumber
+      tags:
+      - users
+  /auth/verfiy-code-email:
+    put:
+      parameters:
+      - description: Body
+        in: body
+        name: _
+        required: true
+        schema:
+          $ref: '#/definitions/dto.VerifyEmailRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.VerifyResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Verfiy Code for Email
+      tags:
+      - users
+  /auth/verfiy-code-phone-number:
+    put:
+      parameters:
+      - description: Body
+        in: body
+        name: _
+        required: true
+        schema:
+          $ref: '#/definitions/dto.VerifyPhoneNumberRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.VerifyResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Verfiy Code for PhoneNumber
+      tags:
+      - users
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

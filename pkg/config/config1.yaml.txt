@@ -1,0 +1,9 @@
+environment: production
+http_port: 8888
+grpc_port: 8889
+auth_secret: ######
+# Update the database URI with correct credentials
+database_uri: postgres://amadytech_user:UBp0KyiORwkldz92RWSNJ0Xaus6Xy86Q@dpg-cnlfl4vsc6pc73cdbbb0-a.frankfurt-postgres.render.com/amadytech
+redis_uri: localhost:6379
+redis_password:
+redis_db: 0

@@ -1,0 +1,23 @@
+environment: production
+http_port: 8888
+grpc_port: 8889
+auth_secret: ######
+# Internal Database URL with SSL/TLS encryption enabled
+# database_uri: postgres://username:password@host:5432/database
+database_uri: postgres://postgres:postgres@localhost:5432/postgres
+# database_uri: postgres://postgres:postgres@dpg-cnlfl4vsc6pc73cdbbb0-a/amadytech
+# Redis URI
+# redis_uri: localhost:6379
+redis_uri: localhost:6379
+redis_password:
+redis_db: 0
+# get google auth from
+# https://developers.google.com/identity/oauth2/web/guides/get-google-api-clientid?hl=ar
+google_client_id: "217504082525-lj2b6jlstd62mmvt6fopjeon75ktecf3.apps.googleusercontent.com"
+google_client_secret: "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"
+google_redirect_url: "http://localhost:8888/auth/google/callback"
+# get FACEBOOK auth from
+# https://developers.google.com/identity/oauth2/web/guides/get-google-api-clientid?hl=ar
+facebook_client_id: "your_facebook_client_id"
+facebook_client_secret: "your_facebook_client_secret"
+facebook_redirect_url: "http://localhost:8888/auth/facebook/callback"

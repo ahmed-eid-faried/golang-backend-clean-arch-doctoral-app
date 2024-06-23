@@ -1,0 +1,235 @@
+syntax = "proto3";
+
+package user;
+import "google/protobuf/timestamp.proto";
+
+option go_package = "./;user";
+// protoc --go_out=. --go-grpc_out=. proto/user/user.proto
+service UserService {
+  rpc Register(RegisterReq) returns (RegisterRes);
+  ///////////////////////////////////////////////////
+  rpc Login(LoginReq) returns (LoginRes);
+  ///////////////////////////////////////////////////
+  rpc GetMe(GetMeReq) returns (GetMeRes);
+  rpc RefreshToken(RefreshTokenReq) returns (RefreshTokenRes);
+  rpc UpdateUser(UpdateUserReq) returns (UpdateUserRes);
+  // ///////////////////////////////////////////////////
+  rpc VerifyUser(VerifyRequest) returns (VerifyResponse);
+  rpc VerfiyCodeEmail(VerifyEmailRequest) returns (VerifyResponse);
+  rpc VerfiyCodePhoneNumber(VerifyPhoneNumberRequest) returns (VerifyResponse);
+  rpc VerfiyCodePhoneNumberResend(ResendVerifyPhoneNumberRequest) returns (VerifyResponse);
+  rpc VerfiyCodeEmailResend(ResendVerifyEmailRequest) returns (VerifyResponse);
+  // ///////////////////////////////////////////////////
+  rpc ListUsers(ListUsersRequest) returns (ListUsersResponse);
+  ///////////////////////////////////////////////////
+  rpc DeleteUser(DeleteUserRequest) returns (UserInfo);
+  }
+//*******************************************************************\\
+//*******************************************************************\\
+
+
+message VerifyEmailRequest {
+  string email      = 1;
+  string verifyCodeEmail = 2;
+}
+message ResendVerifyEmailRequest {
+  string email      = 1;
+}
+//*******************************************************************\\
+//*******************************************************************\\
+//*******************************************************************\\
+// DeleteUserReq message
+message DeleteUserReq {
+  // ID of the User
+  // example: "12345"
+  string id = 1;
+  // User ID associated with the User
+  // example: "67890"
+  string id_user = 2;
+}
+
+// DeleteUserRequest message
+message DeleteUserRequest {
+  string id = 1;
+  DeleteUserReq request = 2;
+}
+//*******************************************************************\\
+//*******************************************************************\\
+//*******************************************************************\\
+// ListUserReq message
+message ListUsersReq {
+  // Name of the User
+  // example: "Home"
+  string name = 1;
+  // User ID associated with the User
+  // example: "67890"
+  string id_user = 2;
+  // Page number for pagination
+  // example: 1
+  int64 page = 3;
+  // Limit number of items per page
+  // example: 10
+  int64 limit = 4;
+}
+
+// Pagination message
+message Pagination {
+  // Total number of items
+  // example: 100
+  int64 total = 1;
+  // Current page number
+  // example: 1
+  int64 page = 2;
+  // Number of items per page
+  // example: 10
+  int64 limit = 3;
+}
+
+// ListUsersRequest message
+message ListUsersRequest {
+  ListUsersReq request = 1;
+}
+
+// ListUsersResponse message
+message ListUsersResponse {
+  repeated User Users = 1;
+  Pagination pagination = 2;
+}
+
+// ListUserRes message
+message ListUsersRes {
+  // List of Users
+  repeated User Users = 1;
+  // Pagination info
+  Pagination pagination = 2;
+}
+//*******************************************************************\\
+//*******************************************************************\\
+//*******************************************************************\\
+
+message VerifyPhoneNumberRequest{
+  string phoneNumber      = 1;
+  string verifyCodePhoneNumber      = 2;
+
+}
+
+message ResendVerifyPhoneNumberRequest{
+  string phoneNumber      = 1;
+
+}
+
+
+//*******************************************************************\\
+//*******************************************************************\\
+
+// =================================================================
+
+message UserInfo {
+  string id         = 1;
+  string email      = 2;
+  string created_at = 3;
+  string updated_at = 4;
+}
+
+// =================================================================
+
+message RegisterReq {
+  string password = 1;
+  UserRole role = 2;
+  string email = 3;
+  string name = 4;
+  string phoneNumber = 5;
+}
+
+message RegisterRes { UserInfo user = 1; }
+// =================================================================
+
+message LoginReq {
+  string email    = 1;
+  string password = 2;
+  UserRole role = 3;
+}
+
+message LoginRes {
+  UserInfo user          = 1;
+  string   access_token  = 2;
+  string   refresh_token = 3;
+}
+// =================================================================
+
+message GetMeReq {}
+
+message GetMeRes { UserInfo user = 1; }
+// =================================================================
+
+message RefreshTokenReq {}
+
+message RefreshTokenRes { string access_token = 1; }
+// =================================================================
+
+message UpdateUserReq {
+  string id     = 1;
+  string password     = 2;
+  string new_password = 3;
+  UserRole role = 4;
+  string email = 5;
+  string name = 6;
+  string phoneNumber = 7;
+  }
+
+message UpdateUserRes {
+  UserInfo user = 1;
+}
+// =================================================================
+
+message VerifyRequest {
+  string email       = 1;
+  string verify_code = 2;
+}
+
+message VerifyResponse {
+  string message = 1;
+}
+// =================================================================
+// message User {
+//   string iD = 1;
+//   string createdAt = 2;
+//   string updatedAt =3;
+//   string deletedAt = 4;
+//   string password = 5;
+//   string role = 6;
+//   string name = 7;
+//   string email = 8;
+//   string phoneNumber =9;
+//   string verifyCodeEmail = 10;
+//   string verifyCodePhoneNumber = 11;
+//   string approveEmail = 12;
+//   string approvePhoneNumber = 13;
+// }
+
+
+// Define the UserRole enum as per your model.UserRole definition
+enum UserRole {
+  ROLE_UNKNOWN = 0;
+  ROLE_USER = 1;
+  ROLE_DOCTOR = 2;
+  ROLE_ADMIN = 3;
+}
+
+message User {
+  string id = 1;
+  google.protobuf.Timestamp created_at = 2;
+  google.protobuf.Timestamp updated_at = 3;
+  google.protobuf.Timestamp deleted_at = 4; // Use google.protobuf.Timestamp for nullable time fields
+  string password = 5;
+  UserRole role = 6;
+  string email = 7;
+  string name = 8;
+  string phone_number = 9;
+  int32 verify_code_email = 10;
+  int32 verify_code_phone_number = 11;
+  bool approve_email = 12;
+  bool approve_phone_number = 13;
+}
+// =================================================================
+// =================================================================
