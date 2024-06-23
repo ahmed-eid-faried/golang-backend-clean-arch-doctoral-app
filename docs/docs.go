@@ -836,6 +836,182 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/doctor": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Doctor"
+                ],
+                "summary": "Get list Doctor",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "id_user",
+                        "name": "id_user",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "name",
+                        "name": "name",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "page",
+                        "name": "page",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "limit",
+                        "name": "limit",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.ListDoctorRes"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Doctor"
+                ],
+                "summary": "create Doctor",
+                "parameters": [
+                    {
+                        "description": "Body",
+                        "name": "_",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.CreateDoctorReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.Doctor"
+                        }
+                    }
+                }
+            }
+        },
+        "/doctor/{id}": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Doctor"
+                ],
+                "summary": "Get Doctor by id",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Doctor ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.Doctor"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Doctor"
+                ],
+                "summary": "Update Doctor",
+                "parameters": [
+                    {
+                        "description": "Body",
+                        "name": "_",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.UpdateDoctorReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.Doctor"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Doctor"
+                ],
+                "summary": "Delete Doctor",
+                "parameters": [
+                    {
+                        "description": "Body",
+                        "name": "_",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.DeleteDoctorReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/dto.Doctor"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -901,6 +1077,29 @@ const docTemplate = `{
                 }
             }
         },
+        "dto.CreateDoctorReq": {
+            "type": "object",
+            "properties": {
+                "experience": {
+                    "type": "integer"
+                },
+                "id_user": {
+                    "type": "string"
+                },
+                "image": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "price": {
+                    "type": "number"
+                },
+                "specalist": {
+                    "type": "string"
+                }
+            }
+        },
         "dto.DeleteAddressReq": {
             "type": "object",
             "properties": {
@@ -914,11 +1113,50 @@ const docTemplate = `{
                 }
             }
         },
+        "dto.DeleteDoctorReq": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "description": "ID of the Doctor\nexample: \"12345\"",
+                    "type": "string"
+                },
+                "id_user": {
+                    "description": "User ID associated with the Doctor\nexample: \"67890\"",
+                    "type": "string"
+                }
+            }
+        },
         "dto.DeleteUserReq": {
             "type": "object",
             "properties": {
                 "id": {
                     "description": "ID of the address\nexample: \"12345\"",
+                    "type": "string"
+                }
+            }
+        },
+        "dto.Doctor": {
+            "type": "object",
+            "properties": {
+                "experience": {
+                    "type": "integer"
+                },
+                "id_Doctor": {
+                    "type": "string"
+                },
+                "id_user": {
+                    "type": "string"
+                },
+                "image": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "price": {
+                    "type": "number"
+                },
+                "specalist": {
                     "type": "string"
                 }
             }
@@ -1039,6 +1277,26 @@ const docTemplate = `{
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/dto.Address"
+                    }
+                },
+                "pagination": {
+                    "description": "Pagination info",
+                    "allOf": [
+                        {
+                            "$ref": "#/definitions/paging.Pagination"
+                        }
+                    ]
+                }
+            }
+        },
+        "dto.ListDoctorRes": {
+            "type": "object",
+            "properties": {
+                "Doctors": {
+                    "description": "List of Doctors\nexample: [{\"id_Doctor\":\"12345\",\"id_user\":\"67890\",\"name\":\"Home\",\"city\":\"San Francisco\",\"street\":\"Market Street\",\"lat\":\"37.7749\",\"long\":\"-122.4194\"}]",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/dto.Doctor"
                     }
                 },
                 "pagination": {
@@ -1199,6 +1457,32 @@ const docTemplate = `{
                 },
                 "street": {
                     "description": "Street of the address\nexample: \"Market Street\"",
+                    "type": "string"
+                }
+            }
+        },
+        "dto.UpdateDoctorReq": {
+            "type": "object",
+            "properties": {
+                "experience": {
+                    "type": "integer"
+                },
+                "id_Doctor": {
+                    "type": "string"
+                },
+                "id_user": {
+                    "type": "string"
+                },
+                "image": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "price": {
+                    "type": "number"
+                },
+                "specalist": {
                     "type": "string"
                 }
             }

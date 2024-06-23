@@ -10,11 +10,12 @@ import (
 	"github.com/quangdangfit/gocommon/validation"
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/google"
+
 	// "golang.org/x/oauth2/google"
 
 	// orderModel "main/internal/order/model"
-	// productModel "main/internal/product/model"
 	addressModel "main/internal/address/model"
+	doctorModel "main/internal/doctor/model"
 	grpcServer "main/internal/server/grpc"
 	httpServer "main/internal/server/http"
 	userModel "main/internal/user/model"
@@ -95,7 +96,7 @@ func main() {
 	// 	Google:   oauthConfig,
 	// }
 
-	err = db.AutoMigrate(&userModel.User{}, &addressModel.Address{})
+	err = db.AutoMigrate(&userModel.User{}, &addressModel.Address{}, &doctorModel.Doctor{})
 	if err != nil {
 		logger.Fatal("Database migration fail", err)
 	}

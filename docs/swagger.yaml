@@ -71,6 +71,21 @@ definitions:
           example: "Market Street"
         type: string
     type: object
+  dto.CreateDoctorReq:
+    properties:
+      experience:
+        type: integer
+      id_user:
+        type: string
+      image:
+        type: string
+      name:
+        type: string
+      price:
+        type: number
+      specalist:
+        type: string
+    type: object
   dto.DeleteAddressReq:
     properties:
       id:
@@ -84,12 +99,42 @@ definitions:
           example: "67890"
         type: string
     type: object
+  dto.DeleteDoctorReq:
+    properties:
+      id:
+        description: |-
+          ID of the Doctor
+          example: "12345"
+        type: string
+      id_user:
+        description: |-
+          User ID associated with the Doctor
+          example: "67890"
+        type: string
+    type: object
   dto.DeleteUserReq:
     properties:
       id:
         description: |-
           ID of the address
           example: "12345"
+        type: string
+    type: object
+  dto.Doctor:
+    properties:
+      experience:
+        type: integer
+      id_Doctor:
+        type: string
+      id_user:
+        type: string
+      image:
+        type: string
+      name:
+        type: string
+      price:
+        type: number
+      specalist:
         type: string
     type: object
   dto.KLoginReq:
@@ -172,6 +217,20 @@ definitions:
           example: [{"id_address":"12345","id_user":"67890","name":"Home","city":"San Francisco","street":"Market Street","lat":"37.7749","long":"-122.4194"}]
         items:
           $ref: '#/definitions/dto.Address'
+        type: array
+      pagination:
+        allOf:
+        - $ref: '#/definitions/paging.Pagination'
+        description: Pagination info
+    type: object
+  dto.ListDoctorRes:
+    properties:
+      Doctors:
+        description: |-
+          List of Doctors
+          example: [{"id_Doctor":"12345","id_user":"67890","name":"Home","city":"San Francisco","street":"Market Street","lat":"37.7749","long":"-122.4194"}]
+        items:
+          $ref: '#/definitions/dto.Doctor'
         type: array
       pagination:
         allOf:
@@ -292,6 +351,23 @@ definitions:
         description: |-
           Street of the address
           example: "Market Street"
+        type: string
+    type: object
+  dto.UpdateDoctorReq:
+    properties:
+      experience:
+        type: integer
+      id_Doctor:
+        type: string
+      id_user:
+        type: string
+      image:
+        type: string
+      name:
+        type: string
+      price:
+        type: number
+      specalist:
         type: string
     type: object
   dto.UpdateUserReq:
@@ -894,6 +970,117 @@ paths:
       summary: Verfiy Code for PhoneNumber
       tags:
       - users
+  /doctor:
+    get:
+      parameters:
+      - description: id_user
+        in: header
+        name: id_user
+        required: true
+        type: string
+      - description: name
+        in: path
+        name: name
+        required: true
+        type: string
+      - description: page
+        in: path
+        name: page
+        required: true
+        type: string
+      - description: limit
+        in: path
+        name: limit
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.ListDoctorRes'
+      summary: Get list Doctor
+      tags:
+      - Doctor
+    post:
+      parameters:
+      - description: Body
+        in: body
+        name: _
+        required: true
+        schema:
+          $ref: '#/definitions/dto.CreateDoctorReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.Doctor'
+      security:
+      - ApiKeyAuth: []
+      summary: create Doctor
+      tags:
+      - Doctor
+  /doctor/{id}:
+    delete:
+      parameters:
+      - description: Body
+        in: body
+        name: _
+        required: true
+        schema:
+          $ref: '#/definitions/dto.DeleteDoctorReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.Doctor'
+      security:
+      - ApiKeyAuth: []
+      summary: Delete Doctor
+      tags:
+      - Doctor
+    get:
+      parameters:
+      - description: Doctor ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.Doctor'
+      summary: Get Doctor by id
+      tags:
+      - Doctor
+    put:
+      parameters:
+      - description: Body
+        in: body
+        name: _
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UpdateDoctorReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.Doctor'
+      security:
+      - ApiKeyAuth: []
+      summary: Update Doctor
+      tags:
+      - Doctor
 securityDefinitions:
   ApiKeyAuth:
     in: header

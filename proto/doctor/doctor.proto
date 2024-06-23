@@ -1,0 +1,248 @@
+syntax = "proto3";
+
+package doctor;
+
+option go_package = "main/proto";
+// protoc --go_out=. --go-grpc_out=. proto/doctor.proto
+// protoc --go_out=proto/gen/go/doctor --go-grpc_out=proto/gen/go/doctor proto/doctor/doctor.proto
+// protoc --go_out=(path for output pb.go) --go-grpc_out=(path for output grpc_pb.go) (path for input file doctor.proto)
+
+
+//=============================================================================//
+// DoctorService defines the gRPC service for Doctors
+service DoctorService {
+    rpc GetDoctorByID(GetDoctorByIDRequest) returns (DoctorResponse);
+    rpc ListDoctors(ListDoctorReq) returns (ListDoctorRes);
+    rpc CreateDoctor(CreateDoctorReq) returns (DoctorResponse);
+    rpc UpdateDoctor(UpdateDoctorReq) returns (DoctorResponse);
+    rpc DeleteDoctor(DeleteDoctorReq) returns (DoctorResponse);
+}
+
+//=============================================================================//
+
+// Doctor message represents a Doctor DTO
+message Doctor {
+    string id = 1;                // ID of the Doctor
+    string id_user = 2;           // User ID associated with the Doctor
+    string name = 3;              // Name of the Doctor
+    string image = 4;             // Image URL of the Doctor
+    float price = 5;              // Price of the Doctor
+    string specialist = 6;        // Specialist of the Doctor
+    int32 experience = 7;         // Experience of the Doctor in years
+}
+
+// CreateDoctorReq message represents a request to create a new Doctor
+message CreateDoctorReq {
+    string id_user = 1;           // User ID associated with the Doctor
+    string name = 2;              // Name of the Doctor
+    string image = 3;             // Image URL of the Doctor
+    float price = 4;              // Price of the Doctor
+    string specialist = 5;        // Specialist of the Doctor
+    int32 experience = 6;         // Experience of the Doctor in years
+}
+
+// UpdateDoctorReq message represents a request to update an existing Doctor
+message UpdateDoctorReq {
+    string id = 1;                // ID of the Doctor
+    string id_user = 2;           // User ID associated with the Doctor
+    string name = 3;              // Name of the Doctor
+    string image = 4;             // Image URL of the Doctor
+    float price = 5;              // Price of the Doctor
+    string specialist = 6;        // Specialist of the Doctor
+    int32 experience = 7;         // Experience of the Doctor in years
+}
+
+// ListDoctorReq message represents query parameters for listing Doctors
+message ListDoctorReq {
+    string name = 1;              // Name of the Doctor
+    string id_user = 2;           // User ID associated with the Doctor
+    int64 page = 3;               // Page number for pagination
+    int64 limit = 4;              // Limit number of items per page
+}
+
+// ListDoctorRes message represents the response for listing Doctors
+message ListDoctorRes {
+    repeated Doctor doctors = 1;  // List of Doctors
+    Pagination pagination = 2;    // Pagination info
+}
+
+// DeleteDoctorReq message represents a request to delete a Doctor
+message DeleteDoctorReq {
+    string id = 1;                // ID of the Doctor
+    string id_user = 2;           // User ID associated with the Doctor
+}
+
+
+
+//  // Doctor message
+//  message Doctor {
+//     // ID of the Doctor
+//     // example: "12345"
+//     string id = 1;
+//     // User ID associated with the Doctor
+//     // example: "67890"
+//     string id_user = 2;
+//     // Name of the Doctor
+//     // example: "Home"
+//     string name = 3;
+//     // Image of the Doctor
+//     // example: "Image URL"
+//     string image = 4;
+//     // Price of the Doctor
+//     // example: 100.50
+//     float price = 5;
+//     // Specialist of the Doctor
+//     // example: "Cardiology"
+//     string specialist = 6;
+//     // Experience of the Doctor in years
+//     // example: 10
+//     int32 experience = 7;
+// }
+// DoctorResponse message
+message DoctorResponse {
+    Doctor Doctor = 1;
+}
+// //=============================================================================//
+// //=============================================================================//
+// GetDoctorByIDRequest message
+message GetDoctorByIDRequest {
+    // ID of the Doctor
+    // example: "12345"
+    string id = 1;
+}
+
+// //=============================================================================//
+// //=============================================================================//
+// // ListDoctorReq message
+// message ListDoctorReq {
+//       // Name of the Doctor
+//     // example: "Home"
+//     string name = 1;
+//     // User ID associated with the Doctor
+//     // example: "67890"
+//     string id_user = 2;
+//     // Page number for pagination
+//     // example: 1
+//     int64 page = 3;
+//     // Limit number of items per page
+//     // example: 10
+//     int64 limit = 4;
+// }
+
+// Pagination message
+message Pagination {
+    // Total number of items
+    // example: 100
+    int64 total = 1;
+    // Current page number
+    // example: 1
+    int64 page = 2;
+    // Number of items per page
+    // example: 10
+    int64 limit = 3;
+}
+// // ListDoctorsRequest message
+// message ListDoctorsRequest {
+//     ListDoctorReq request = 1;
+// }
+
+// // ListDoctorsResponse message
+// message ListDoctorsResponse {
+//     repeated Doctor doctors = 1;
+//     Pagination pagination = 2;
+// }
+
+// // ListDoctorRes message
+// message ListDoctorRes {
+//     // List of Doctors
+//     // example: [{"id_Doctor":"12345","id_user":"67890","name":"Home","city":"San Francisco","street":"Market Street","lat":"37.7749","long":"-122.4194"}]
+//     repeated Doctor Doctors = 1;
+//     // Pagination info
+//     Pagination pagination = 2;
+// }
+
+// //=============================================================================//
+// //=============================================================================//
+// // CreateDoctorReq message
+// message CreateDoctorReq {
+//    // User ID associated with the Doctor
+//     // example: "67890"
+//     string id_user = 1;
+//     // Name of the Doctor
+//     // example: "Home"
+//     string name = 2;
+//     // Image of the Doctor
+//     // example: "Image URL"
+//     string image = 3;
+//     // Price of the Doctor
+//     // example: 100.50
+//     float price = 4;
+//     // Specialist of the Doctor
+//     // example: "Cardiology"
+//     string specialist = 5;
+//     // Experience of the Doctor in years
+//     // example: 10
+//     int32 experience = 6;
+// }
+
+// // CreateDoctorRequest message
+// message CreateDoctorRequest {
+//    // ID of the Doctor
+//     // example: "12345"
+//     string id = 1;
+//     // Updated Doctor information
+//     CreateDoctorRequest request = 2;}
+// //=============================================================================//
+// //=============================================================================//
+// // UpdateDoctorReq message
+// message UpdateDoctorReq {
+//     // User ID associated with the Doctor
+//     // example: "67890"
+//     string id_user = 1;
+//         // User ID associated with the Doctor
+//     // example: "67890"
+//     string id_user = 1;
+//     // Name of the Doctor
+//     // example: "Home"
+//     string name = 2;
+//     // Image of the Doctor
+//     // example: "Image URL"
+//     string image = 3;
+//     // Price of the Doctor
+//     // example: 100.50
+//     float price = 4;
+//     // Specialist of the Doctor
+//     // example: "Cardiology"
+//     string specialist = 5;
+//     // Experience of the Doctor in years
+//     // example: 10
+//     int32 experience = 6;
+// }
+// // UpdateDoctorRequest message
+// message UpdateDoctorRequest {
+//     string id = 1;
+//     UpdateDoctorReq request = 2;
+// }
+
+
+// //=============================================================================//
+// //=============================================================================//
+
+// // DeleteDoctorReq message
+// message DeleteDoctorReq {
+//     // ID of the Doctor
+//     // example: "12345"
+//     string id = 1;
+//     // User ID associated with the Doctor
+//     // example: "67890"
+//     string id_user = 2;
+// }
+
+// // DeleteDoctorRequest message
+// message DeleteDoctorRequest {
+//     string id = 1;
+//     DeleteDoctorReq request = 2;
+// }
+
+// //=============================================================================//
+// //=============================================================================//

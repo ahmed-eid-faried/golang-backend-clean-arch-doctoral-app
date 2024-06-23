@@ -16,6 +16,7 @@ const (
 	DatabaseTimeout    = 5 * time.Second
 	ProductCachingTime = 1 * time.Minute
 	AddressCachingTime = 1 * time.Minute
+	DoctorCachingTime  = 1 * time.Minute
 	UsersCachingTime   = 1 * time.Minute
 )
 

@@ -14,8 +14,8 @@ import (
 
 	_ "main/docs"
 	// orderHttp "main/internal/order/port/http"
-	// productHttp "main/internal/product/port/http"
 	addressHttp "main/internal/address/port/http"
+	doctorHttp "main/internal/doctor/port/http"
 	userHttp "main/internal/user/port/http"
 	"main/pkg/config"
 	"main/pkg/dbs"
@@ -84,7 +84,7 @@ func (s Server) MapRoutes() error {
 	v1 := s.engine.Group("/api/v1")
 	userHttp.Routes(v1, s.db, s.validator, s.fbOauthConfig, s.oauthConfig)
 	addressHttp.Routes(v1, s.db, s.validator, s.cache)
-	// productHttp.Routes(v1, s.db, s.validator, s.cache)
+	doctorHttp.Routes(v1, s.db, s.validator, s.cache)
 	// orderHttp.Routes(v1, s.db, s.validator)
 	return nil
 }
