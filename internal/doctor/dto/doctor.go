@@ -49,19 +49,28 @@ type UpdateDoctorReq struct {
 // ***************************************************************************\\
 // ListDoctorReq represents the query parameters for listing Doctors.
 // swagger:model ListDoctorReq
+// type OrderBy string
+
+// const (
+// 	OrderByNone OrderBy = ""
+// 	IDUser      OrderBy = "id_user"
+// 	Name        OrderBy = "name"
+// 	Price       OrderBy = "price"
+// 	Specialty   OrderBy = "specalist"
+// 	Experience  OrderBy = "experience"
+// 	CreatedAt   OrderBy = "created_at"
+// )
+
 type ListDoctorReq struct {
-	// Name of the Doctor
-	// example: "Home"
-	Name string `json:"name,omitempty" form:"name"`
-	// User ID associated with the Doctor
-	// example: "67890"
-	IDUser string `json:"id_user"`
-	// Page number for pagination
-	// example: 1
-	Page int64 `json:"-" form:"page"`
-	// Limit number of items per page
-	// example: 10
-	Limit int64 `json:"-" form:"limit"`
+	Search    string    `json:"search,omitempty" form:"search"`
+	IDUser    string    `json:"id_user,omitempty" form:"id_user"`
+	Page      int64     `json:"page,omitempty" form:"page"`
+	Limit     int64     `json:"limit,omitempty" form:"limit"`
+	OrderList []OrderBy `json:"order_list,omitempty" form:"order_list"`
+}
+type OrderBy struct {
+	OrderBy   string `json:"order_by,omitempty" form:"order_by"`
+	OrderDesc bool   `json:"order_desc,omitempty" form:"order_desc"`
 }
 
 // ListDoctorRes represents the response body for listing Doctors.

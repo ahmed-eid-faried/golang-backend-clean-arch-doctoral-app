@@ -12,6 +12,12 @@ import (
 	"golang.org/x/oauth2/google"
 
 	// "golang.org/x/oauth2/google"
+	// _ "github.com/GoAdminGroup/go-admin/adapter/gin" // Import the adapter, it must be imported. If it is not imported, you need to define it yourself.
+	// "github.com/GoAdminGroup/go-admin/engine"
+	// config "github.com/GoAdminGroup/go-admin/modules/config"
+	// _ "github.com/GoAdminGroup/go-admin/modules/db/drivers/mysql" // Import the sql driver
+	// "github.com/GoAdminGroup/go-admin/modules/language"
+	// _ "github.com/GoAdminGroup/themes/adminlte" // Import the theme
 
 	// orderModel "main/internal/order/model"
 	addressModel "main/internal/address/model"
@@ -19,7 +25,7 @@ import (
 	grpcServer "main/internal/server/grpc"
 	httpServer "main/internal/server/http"
 	userModel "main/internal/user/model"
-	"main/pkg/config"
+	conf "main/pkg/config"
 	"main/pkg/dbs"
 	"main/pkg/redis"
 )
@@ -45,7 +51,7 @@ import (
 // @host localhost:8888
 // @BasePath /api/v1
 func main() {
-	cfg := config.LoadConfig()
+	cfg := conf.LoadConfig()
 	logger.Initialize(cfg.Environment)
 	//*********************************************
 

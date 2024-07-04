@@ -2,6 +2,7 @@ package repository
 
 import (
 	"context"
+	"fmt"
 
 	"main/internal/doctor/dto"
 	"main/internal/doctor/model"
@@ -37,20 +38,29 @@ func (r *DoctorRepo) ListDoctors(ctx context.Context, req *dto.ListDoctorReq) ([
 	defer cancel()
 
 	query := make([]dbs.Query, 0)
-	if req.Name != "" {
-		query = append(query, dbs.NewQuery("name LIKE ?", "%"+req.Name+"%"))
+	if req.Search != "" || req.Search != " " {
+		query = append(query, dbs.NewQuery("name LIKE ?", "%"+req.Search+"%"))
+	} else {
+		query = append(query, dbs.NewQuery(""))
 	}
 	// if req.Code != "" {
 	// 	query = append(query, dbs.NewQuery("code = ?", req.Code))
 	// }
 
-	// order := "created_at"
-	// if req.OrderBy != "" {
-	// 	order = req.OrderBy
-	// 	if req.OrderDesc {
-	// 		order += " DESC"
-	// 	}
-	// }
+	// Construct order criteria
+	orderList := req.OrderList
+	order := ""
+	OrderDes := ""
+	for _, i := range orderList {
+		if i.OrderDesc {
+			OrderDes = " DESC"
+		} else {
+			OrderDes = ""
+
+		}
+		order += (i.OrderBy + OrderDes)
+
+	}
 
 	var total int64
 	if err := r.db.Count(ctx, &model.Doctor{}, &total, dbs.WithQuery(query...)); err != nil {
@@ -66,10 +76,11 @@ func (r *DoctorRepo) ListDoctors(ctx context.Context, req *dto.ListDoctorReq) ([
 		dbs.WithQuery(query...),
 		dbs.WithLimit(int(pagination.Limit)),
 		dbs.WithOffset(int(pagination.Skip)),
-		// dbs.WithOrder(order),
+		dbs.WithOrder(order),
 	); err != nil {
 		return nil, nil, err
 	}
+	print(Doctors)
 
 	return Doctors, pagination, nil
 }
@@ -83,7 +94,15 @@ func (r *DoctorRepo) GetDoctorByID(ctx context.Context, id string) (*model.Docto
 }
 
 func (r *DoctorRepo) Create(ctx context.Context, doctor *model.Doctor) error {
-	return r.db.Create(ctx, doctor)
+	var existingDoctor model.Doctor
+	query := dbs.NewQuery("id_user = ?", doctor.IDUser)
+	if err := r.db.FindOne(ctx, &existingDoctor, dbs.WithQuery(query)).Error; err == nil {
+		return fmt.Errorf("doctor with id_user %s already exists", doctor.IDUser)
+	} else {
+		// return fmt.Errorf("we have errors :-  %s", err)
+		return r.db.Create(ctx, doctor)
+
+	}
 }
 
 func (r *DoctorRepo) Update(ctx context.Context, Doctor *model.Doctor) error {

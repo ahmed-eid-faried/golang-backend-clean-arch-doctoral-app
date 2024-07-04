@@ -2,7 +2,6 @@ package http
 
 import (
 	"net/http"
-	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"github.com/quangdangfit/gocommon/logger"
@@ -63,44 +62,22 @@ func (p *DoctorHandler) GetDoctorByID(c *gin.Context) {
 }
 
 // ListDoctor godoc
-//
-//		@Summary	Get list Doctor
-//		@Tags		Doctor
-//		@Produce	json
-//	 @Param id_user header string true "id_user"
-//	@Param		name	path	string					true	"name"
-//	@Param		page	path	string					true	"page"
-//	@Param		limit	path	string					true	"limit"
-//
+// @Summary	ListDoctors
+// @Tags		Doctor
+// @Produce	json
+// @Security	ApiKeyAuth
+// @Param		search	query	string	false	"Search"
+// @Param		id_user	query	string	false	"ID User"
+// @Param		page	query	int64	false	"Page number"
+// @Param		limit	query	int64	false	"Limit per page"
+// @Param		order_by	query	string	false	"Order by field"
+// @Param		order_desc	query	bool	false	"Order descending"
 // @Success	200	{object}	dto.ListDoctorRes
-// @Router		/doctor  [get]
+// @Router		/doctor/list_doctors [get]
 func (p *DoctorHandler) ListDoctors(c *gin.Context) {
-	Name := c.Param("name")
-	IDUser := c.Param("id_user")
-	PageStr := c.Param("page")
-	LimitStr := c.Param("limit")
-
-	Page, err1 := strconv.ParseInt(PageStr, 10, 64)
-	if err1 != nil {
-		c.JSON(http.StatusBadRequest, utils.HTTPError{Code: http.StatusBadRequest, Message: "Invalid page number"})
-		return
-	}
-
-	Limit, err2 := strconv.ParseInt(LimitStr, 10, 64)
-	if err2 != nil {
-		c.JSON(http.StatusBadRequest, utils.HTTPError{Code: http.StatusBadRequest, Message: "Invalid limit number"})
-		return
-	}
-
-	// var req dto.ListDoctorReq
-	req := dto.ListDoctorReq{
-		Name:   Name,
-		IDUser: IDUser,
-		Page:   Page,
-		Limit:  Limit,
-	}
+	var req dto.ListDoctorReq
 	if err := c.ShouldBindQuery(&req); err != nil {
-		logger.Error("Failed to parse request query: ", err)
+		logger.Error("Failed to get query params", err)
 		response.Error(c, http.StatusBadRequest, err, "Invalid parameters")
 		return
 	}
@@ -115,7 +92,7 @@ func (p *DoctorHandler) ListDoctors(c *gin.Context) {
 
 	Doctors, pagination, err := p.service.ListDoctors(c, &req)
 	if err != nil {
-		logger.Error("Failed to get list Doctor: ", err)
+		logger.Error("Failed to get list of Doctors: ", err)
 		response.Error(c, http.StatusInternalServerError, err, "Something went wrong")
 		return
 	}

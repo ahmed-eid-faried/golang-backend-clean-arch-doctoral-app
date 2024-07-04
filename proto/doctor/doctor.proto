@@ -3,7 +3,7 @@ syntax = "proto3";
 package doctor;
 
 option go_package = "main/proto";
-// protoc --go_out=. --go-grpc_out=. proto/doctor.proto
+// protoc --go_out=. --go-grpc_out=. proto/doctor/doctor.proto
 // protoc --go_out=proto/gen/go/doctor --go-grpc_out=proto/gen/go/doctor proto/doctor/doctor.proto
 // protoc --go_out=(path for output pb.go) --go-grpc_out=(path for output grpc_pb.go) (path for input file doctor.proto)
 
@@ -52,12 +52,28 @@ message UpdateDoctorReq {
     int32 experience = 7;         // Experience of the Doctor in years
 }
 
+// // Define the UserRole enum as per your model.UserRole definition
+// enum OrderBy {
+// 	OrderByNone  = 0;
+// 	IDUser       =1;
+// 	Name         = 2;
+// 	Price        = 3;
+// 	Specialty    = 4;
+// 	Experience   = 5;
+// 	CreatedAt    = 6;
+//     }
+
 // ListDoctorReq message represents query parameters for listing Doctors
 message ListDoctorReq {
-    string name = 1;              // Name of the Doctor
-    string id_user = 2;           // User ID associated with the Doctor
-    int64 page = 3;               // Page number for pagination
-    int64 limit = 4;              // Limit number of items per page
+    string search = 1;
+    string id_user = 2;
+    int64 page = 3;
+    int64 limit = 4;
+    repeated OrderBy order_list = 5;
+    }
+message OrderBy {
+    string OrderBy = 1;
+    bool OrderDesc = 2;
 }
 
 // ListDoctorRes message represents the response for listing Doctors

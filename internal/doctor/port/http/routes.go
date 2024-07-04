@@ -19,7 +19,7 @@ func Routes(r *gin.RouterGroup, sqlDB dbs.IDatabase, validator validation.Valida
 	authMiddleware := middleware.JWTAuth()
 	doctorRoute := r.Group("/doctor")
 	{
-		doctorRoute.GET("", doctorHandler.ListDoctors)
+		doctorRoute.GET("/list_doctors", doctorHandler.ListDoctors)
 		doctorRoute.GET("/:id", doctorHandler.GetDoctorByID)
 		doctorRoute.POST("", authMiddleware, doctorHandler.CreateDoctor)
 		doctorRoute.PUT("/:id", authMiddleware, doctorHandler.UpdateDoctor)

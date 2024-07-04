@@ -17,6 +17,7 @@ import (
 	addressHttp "main/internal/address/port/http"
 	doctorHttp "main/internal/doctor/port/http"
 	userHttp "main/internal/user/port/http"
+	// Admin "main/pkg/admin"
 	"main/pkg/config"
 	"main/pkg/dbs"
 	"main/pkg/redis"
@@ -86,5 +87,10 @@ func (s Server) MapRoutes() error {
 	addressHttp.Routes(v1, s.db, s.validator, s.cache)
 	doctorHttp.Routes(v1, s.db, s.validator, s.cache)
 	// orderHttp.Routes(v1, s.db, s.validator)
+
+	// Create a pointer to AdminPanel and call Run method
+	// adminPanel := &Admin.AdminPanel{}
+	// adminPanel.Run(s.engine)
+
 	return nil
 }

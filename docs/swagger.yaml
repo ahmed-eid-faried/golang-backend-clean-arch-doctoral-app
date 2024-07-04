@@ -971,38 +971,6 @@ paths:
       tags:
       - users
   /doctor:
-    get:
-      parameters:
-      - description: id_user
-        in: header
-        name: id_user
-        required: true
-        type: string
-      - description: name
-        in: path
-        name: name
-        required: true
-        type: string
-      - description: page
-        in: path
-        name: page
-        required: true
-        type: string
-      - description: limit
-        in: path
-        name: limit
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/dto.ListDoctorRes'
-      summary: Get list Doctor
-      tags:
-      - Doctor
     post:
       parameters:
       - description: Body
@@ -1079,6 +1047,45 @@ paths:
       security:
       - ApiKeyAuth: []
       summary: Update Doctor
+      tags:
+      - Doctor
+  /doctor/list_doctors:
+    get:
+      parameters:
+      - description: Search
+        in: query
+        name: search
+        type: string
+      - description: ID User
+        in: query
+        name: id_user
+        type: string
+      - description: Page number
+        in: query
+        name: page
+        type: integer
+      - description: Limit per page
+        in: query
+        name: limit
+        type: integer
+      - description: Order by field
+        in: query
+        name: order_by
+        type: string
+      - description: Order descending
+        in: query
+        name: order_desc
+        type: boolean
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/dto.ListDoctorRes'
+      security:
+      - ApiKeyAuth: []
+      summary: ListDoctors
       tags:
       - Doctor
 securityDefinitions:
