@@ -1,6 +1,7 @@
 module main
 
 go 1.21.6
+toolchain go1.23.7
 
 require (
 	github.com/go-redis/redis/v8 v8.11.5
@@ -79,9 +80,9 @@ require (
 	go.uber.org/multierr v1.7.0 // indirect
 	go.uber.org/zap v1.19.1 // indirect
 	golang.org/x/arch v0.8.0 // indirect
-	golang.org/x/net v0.25.0 // indirect
-	golang.org/x/sys v0.20.0 // indirect
-	golang.org/x/tools v0.21.0 // indirect
+	golang.org/x/net v0.36.0 // indirect
+	golang.org/x/sys v0.30.0 // indirect
+	golang.org/x/tools v0.21.1-0.20240508182429-e35e4ccd0d2d // indirect
 	google.golang.org/appengine v1.6.8 // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20240318140521-94a12d6c2237 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
@@ -94,6 +95,6 @@ require (
 	github.com/joho/godotenv v1.5.1
 	github.com/sendgrid/sendgrid-go v3.14.0+incompatible
 	github.com/twilio/twilio-go v1.21.1
-	golang.org/x/crypto v0.23.0
-	golang.org/x/text v0.15.0 // indirect
+	golang.org/x/crypto v0.35.0
+	golang.org/x/text v0.22.0 // indirect
 )
